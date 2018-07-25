@@ -1,0 +1,26 @@
+This creates a load balancer for the web serivce and
+updates DNS records per each environment.
+
+Make sure to set proper working environment.
+Test everything on non-prod first!
+
+
+Run order:
+# Initialise Terraform
+~/terraform init
+
+# Set workspace according to environment
+~/terraform workspace select production
+or
+~/terraform workspace select non-prod
+
+# Create loadbalancers and other AWS stuff
+cd elb
+~/terraform apply
+
+# Update the dictionary with new ELB URLs
+python update-dns-dictionary.py
+
+# Update Route53 records
+cd .. && cd dns
+~/terraform apply
